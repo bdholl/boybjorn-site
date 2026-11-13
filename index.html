@@ -17,7 +17,7 @@
 <style>
   :root{
     --paper:#f2eee5; --ink:#1f1d1a; --soft:#6b665d; --line:#d9d3c6;
-    --river:#8fcfc8; --river-ink:#123d3a; --card:#fbf9f4;
+    --river:#8fcfc8; --river-ink:#123d3a; --card:#fbf9f4; --quote:#8e3d22;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -93,6 +93,18 @@
 
   .about{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
   .about p{font-size:15px;line-height:1.6}
+  #bio p + p{margin-top:12px}
+  .about-photo{display:block;width:calc(100% + 40px);margin:-20px -20px 18px;aspect-ratio:4/5;object-fit:cover;object-position:center 30%;border-radius:17px 17px 0 0;background:var(--line)}
+  .photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .photo{display:block;border-radius:12px;overflow:hidden;background:var(--line)}
+  .photo img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .3s ease}
+  .photo:hover img{transform:scale(1.03)}
+  .quotes{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:22px 24px;margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+  .quotes:empty{display:none}
+  .about .quotes + a{margin-top:22px}
+  blockquote p{font-family:Fraunces,Georgia,serif;font-size:18px!important;line-height:1.3!important;color:var(--quote)}
+  @media (max-width:420px){ .quotes{gap:16px 14px} blockquote p{font-size:16px!important} }
+  blockquote cite{display:block;font-style:normal;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-top:6px}
   .about a{display:inline-block;margin-top:12px;font-size:14px;font-weight:500;color:var(--ink)}
 
   footer{text-align:center}
@@ -134,8 +146,28 @@
     ],
 
     VIDEO: "",        // YouTube link for a video to feature, e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX
-    BIO: "Boy Bjorn is the Milwaukee folk project of Brian Holl, also of Foreign Fields. The debut album Mistaken Animals came out in 2019, and the new single The River arrives December 4.",  // leave empty to hide the About section
-    PRESS_PHOTO: ""   // link to a high-res press photo for venues and blogs
+    // About: one string per paragraph. Leave empty [] to hide the section.
+    BIO: [
+      "Boy Bjorn is the folk project of Milwaukee songwriter Brian Holl, one half of the alt-folk duo Foreign Fields. Holl started it wanting something “a little immature, a little romantic”: songs “born out of a desire to capture moments lost.”",
+      "After signing to Communion Records, Holl released the singles “Anchorage” and “Alone at the Severance,” followed by the 2019 debut Mistaken Animals, an album “full of caricatures and stories from the past. iPods and parking lots in high school.”",
+      "The new songs, starting with The River on December 4, go somewhere closer. “I’m leaning into my folky love song tendencies this time around,” Holl says. “More honest, and more direct than ever before.”"
+    ],
+    // Press quotes shown under the bio
+    PRESS: [
+      { quote: "Lyrically, Boy Bjorn is in a league of his own.", source: "Atwood Magazine" },
+      { quote: "Charming earnest folk.", source: "Glide Magazine" },
+      { quote: "A really great kind of ouch.", source: "When the Horn Blows" },
+      { quote: "A lovely, slow conduit.", source: "Underwater Sunshine Fest" }
+    ],
+    ABOUT_PHOTO: "guitar.jpg",
+    // Photo grid under About. pos = which part to keep when cropped square (e.g. "left", "center", "30% 50%")
+    PHOTOS: [
+      { src: "denim.jpg", alt: "Brian Holl in a denim jacket", pos: "58% 50%" },
+      { src: "van.jpg",   alt: "On the road in the van",        pos: "left" },
+      { src: "film.jpg",  alt: "Waving from a patio table",     pos: "center" },
+      { src: "street.jpg",alt: "In a doorway on a brick street",pos: "center 60%" }
+    ],
+    PRESS_PHOTO: "press-photo.jpg"   // high-res press photo for venues and blogs
   };
   if (BB.PIXEL_ID) {
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -207,9 +239,15 @@
   <section class="section hidden" id="about-wrap">
     <p class="label">About</p>
     <div class="about">
-      <p id="bio"></p>
+      <img class="about-photo hidden" id="about-photo" alt="Brian Holl playing acoustic guitar at home" loading="lazy">
+      <div id="bio"></div>
+      <div class="quotes" id="quotes"></div>
       <a id="press" class="hidden" data-track="press-photo">Download press photo</a>
     </div>
+  </section>
+
+  <section class="section hidden" id="photos-wrap" aria-label="Photos">
+    <div class="photos" id="photos"></div>
   </section>
 
   <footer>
@@ -302,10 +340,26 @@
   }
 
   // About
-  if (BB.BIO) {
-    document.getElementById('bio').textContent = BB.BIO; show('about-wrap');
+  var bio = [].concat(BB.BIO || []).filter(Boolean), bioBox = document.getElementById('bio');
+  bio.forEach(function(t){ bioBox.appendChild(el('p', null, t)); });
+  var quotes = document.getElementById('quotes');
+  (BB.PRESS || []).forEach(function(q){
+    var b = el('blockquote'); b.appendChild(el('p', null, '“' + q.quote + '”')); b.appendChild(el('cite', null, q.source)); quotes.appendChild(b);
+  });
+  if (bio.length || (BB.PRESS || []).length) {
+    show('about-wrap');
+    if (BB.ABOUT_PHOTO) { var ap = document.getElementById('about-photo'); ap.src = BB.ABOUT_PHOTO; ap.classList.remove('hidden'); }
     if (BB.PRESS_PHOTO) { ext(document.getElementById('press'), BB.PRESS_PHOTO); show('press'); }
   }
+
+  // Photo grid: square crops, tap to open full size
+  var photos = BB.PHOTOS || [], pgrid = document.getElementById('photos');
+  photos.forEach(function(p){
+    var a = el('a', 'photo'); ext(a, p.src); a.dataset.track = 'photo';
+    var img = el('img'); img.src = p.src; img.alt = p.alt || ''; img.loading = 'lazy'; if (p.pos) img.style.objectPosition = p.pos;
+    a.appendChild(img); pgrid.appendChild(a);
+  });
+  if (photos.length) show('photos-wrap');
 
   // Email list: Netlify Forms, submitted in place
   var form = document.querySelector('form.signup'), msg = document.getElementById('form-msg');
