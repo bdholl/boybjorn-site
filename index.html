@@ -22,7 +22,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.45;min-height:100vh;display:flex;justify-content:center}
-  main{width:100%;max-width:440px;padding:40px 20px 56px}
+  main{width:100%;max-width:580px;padding:40px 20px 56px}
+  @media (min-width:600px){ main{padding-top:56px} }
   header{text-align:center;margin-bottom:28px}
   .avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 14px;background:var(--line)}
   h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:34px;letter-spacing:-.01em;line-height:1.05}
@@ -109,7 +110,7 @@
     PIXEL_ID: "514979485964352",
     RELEASE: "2026-12-04T00:00:00-06:00",
     LINKS: {
-      presave:  "#",                                   // DistroKid HyperFollow link for The River
+      presave:  "https://distrokid.com/hyperfollow/boybjorn/the-river", // DistroKid HyperFollow link for The River
       river:    "#",                                   // Spotify link to The River (live on Dec 4)
       spotify:  "https://open.spotify.com/artist/2qfpz8vJJMRopufkA7RjOU",
       apple:    "https://music.apple.com/us/artist/boy-bjorn/1254162109",
@@ -133,7 +134,7 @@
     ],
 
     VIDEO: "",        // YouTube link for a video to feature, e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX
-    BIO: "",          // a few sentences; leave empty to hide the About section
+    BIO: "Boy Bjorn is the Milwaukee folk project of Brian Holl, also of Foreign Fields. The debut album Mistaken Animals came out in 2019, and the new single The River arrives December 4.",  // leave empty to hide the About section
     PRESS_PHOTO: ""   // link to a high-res press photo for venues and blogs
   };
   if (BB.PIXEL_ID) {
