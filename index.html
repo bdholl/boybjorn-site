@@ -228,13 +228,13 @@
   </section>
 
   <section class="list" id="list">
-    <h3>Get 3 unreleased voice memos</h3>
-    <p>New songs before anyone else hears them.</p>
+    <h3>Listen to 3 unreleased voice memos</h3>
+    <p>Hear new songs before anyone else. After that, I’ll only email when there’s something good: new music, shows, and the occasional extra.</p>
     <form class="signup" action="https://app.kit.com/forms/10198948/subscriptions" method="post">
       <p class="hp"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <label class="sr" for="list-email">Email address</label>
       <input id="list-email" type="email" name="email_address" placeholder="you@email.com" autocomplete="email" required>
-      <button class="btn" type="submit">Send them</button>
+      <button class="btn" type="submit">Sign up</button>
     </form>
     <p class="form-msg hidden" id="form-msg" role="status"></p>
   </section>
@@ -370,7 +370,7 @@
   form.addEventListener('submit', function(ev){
     ev.preventDefault();
     if (form.company.value) { done("You're in. Check your inbox for the voice memos."); return; } // honeypot: bots get a fake success
-    var b = form.querySelector('button'); b.disabled = true; b.textContent = 'Sending…'; msg.classList.add('hidden');
+    var b = form.querySelector('button'); b.disabled = true; b.textContent = 'Signing up…'; msg.classList.add('hidden');
     var data = new FormData(); data.append('email_address', form.email_address.value); data.append('referrer', location.href);
     fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
       .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -387,7 +387,7 @@
         }
       })
       .catch(function(){
-        b.disabled = false; b.textContent = 'Send them';
+        b.disabled = false; b.textContent = 'Sign up';
         msg.textContent = "That didn't go through. Check the address and try again, or email " + L.email + '.'; msg.classList.remove('hidden');
       });
   });
