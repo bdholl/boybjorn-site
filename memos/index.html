@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Three voice memos · Boy Bjorn</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2eee5; --ink:#1f1d1a; --soft:#6b665d; --line:#d9d3c6;
+    --river:#8fcfc8; --river-ink:#123d3a; --card:#fbf9f4;
+    color-scheme:light; accent-color:var(--river-ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.45;min-height:100vh;display:flex;justify-content:center}
+  main{width:100%;max-width:580px;padding:40px 20px 56px}
+  @media (min-width:600px){ main{padding-top:56px} }
+  header{text-align:center;margin-bottom:28px}
+  .avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 14px;background:var(--line)}
+  .home{display:block;width:84px;margin:0 auto 14px;border-radius:50%}
+  .home .avatar{margin:0;transition:transform .15s ease}
+  .home:hover .avatar{transform:scale(1.04)}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:34px;letter-spacing:-.01em;line-height:1.05}
+  .note{color:var(--soft);font-size:15px;line-height:1.55;margin:10px auto 0;max-width:400px}
+  .note .sig{display:block;margin-top:4px;font-family:Fraunces,Georgia,serif;font-size:17px;color:var(--ink)}
+
+  .memos{display:grid;gap:12px;margin-bottom:22px}
+  .memo{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 16px 14px}
+  .memo-head{display:flex;align-items:baseline;gap:12px;margin:0 2px 12px}
+  .memo-head .n{flex:none;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--soft)}
+  .memo-head h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:22px;line-height:1.15;overflow-wrap:anywhere}
+  .memo audio{display:block;width:100%;height:54px;border-radius:999px;background:var(--paper)}
+  .memo audio::-webkit-media-controls-panel{background:var(--paper)}
+  .memo .soon{font-size:14px;color:var(--soft);padding:14px 2px 2px}
+
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:15px 18px;border-radius:12px;text-decoration:none;font-weight:600;font-size:16px;transition:transform .08s ease, opacity .15s}
+  .btn:active{transform:scale(.985)}
+  .btn svg{width:20px;height:20px;flex:none}
+  .primary{background:var(--ink);color:var(--paper)}
+  .primary:hover{opacity:.9}
+  .outline{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .outline:hover{border-color:var(--ink)}
+  .actions{display:grid;gap:10px}
+
+  footer{text-align:center;margin-top:28px}
+  footer a{font-size:14px;color:var(--soft)}
+  .hidden{display:none!important}
+</style>
+
+<script>
+  window.BB = {
+    PIXEL_ID: "514979485964352",
+    RELEASE: "2026-12-04T00:00:00-06:00",
+    // Same links as the homepage (index.html). Update both if one changes.
+    LINKS: {
+      presave: "https://distrokid.com/hyperfollow/boybjorn/the-river",
+      river:   "#",
+      spotify: "https://open.spotify.com/artist/2qfpz8vJJMRopufkA7RjOU"
+    },
+    // The three memos, in order. Leave src empty to show "Coming soon".
+    MEMOS: [
+      { title: "Voice memo 1", src: "" },
+      { title: "Voice memo 2", src: "" },
+      { title: "Voice memo 3", src: "" }
+    ]
+  };
+  if (BB.PIXEL_ID) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', BB.PIXEL_ID); fbq('track', 'PageView'); fbq('track', 'CompleteRegistration');
+  }
+</script>
+</head>
+<body>
+<main>
+  <header>
+    <a href="/" class="home" aria-label="Boy Bjorn home"><img class="avatar" src="/photo.jpg" alt="Boy Bjorn" onerror="this.style.visibility='hidden'"></a>
+    <h1>Three voice memos</h1>
+    <p class="note">Rough and early, the way songs sound before anyone else hears them. Thanks for being here.<span class="sig">Brian</span></p>
+  </header>
+
+  <section class="memos" id="memos"></section>
+
+  <div class="actions">
+    <a id="presave" class="btn primary hidden" data-track="presave">Pre-save The River (Dec 4)</a>
+    <a id="spotify" class="btn outline hidden" data-track="spotify">
+      <svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2.1-10.5-1.1a.75.75 0 1 1-.33-1.46c4.6-1.05 8.5-.6 11.6 1.3.36.22.47.69.25 1zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.2-1.97-8.08-2.54-11.87-1.39a.94.94 0 1 1-.54-1.8c4.33-1.31 9.71-.68 13.4 1.59.44.27.58.85.3 1.29zm.13-3.4C15.24 8.34 8.88 8.13 5.2 9.25a1.12 1.12 0 1 1-.65-2.15c4.22-1.28 11.24-1.03 15.67 1.6a1.12 1.12 0 1 1-1.14 1.93z"/></svg>Follow on Spotify</a>
+  </div>
+
+  <footer><a href="/">boybjorn.com</a></footer>
+</main>
+
+<script>
+(function(){
+  var L = BB.LINKS, out = new Date() >= new Date(BB.RELEASE);
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function ext(a, url){ a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.classList.remove('hidden'); }
+
+  // Players: one card per memo; starting one pauses the others
+  var box = document.getElementById('memos'), players = [];
+  BB.MEMOS.forEach(function(m, i){
+    var card = el('article', 'memo'), head = el('div', 'memo-head');
+    head.appendChild(el('span', 'n', String(i + 1).padStart(2, '0')));
+    head.appendChild(el('h2', null, m.title));
+    card.appendChild(head);
+    if (m.src) {
+      var a = el('audio'); a.controls = true; a.preload = 'metadata'; a.src = m.src;
+      a.setAttribute('controlsList', 'nodownload noplaybackrate'); a.setAttribute('aria-label', m.title);
+      a.addEventListener('play', function(){
+        players.forEach(function(p){ if (p !== a) p.pause(); });
+        if (window.fbq && !a.dataset.played) { a.dataset.played = 1; fbq('trackCustom', 'MemoPlay', {memo: m.title}); }
+      });
+      players.push(a); card.appendChild(a);
+    } else {
+      card.appendChild(el('p', 'soon', 'Coming soon.'));
+    }
+    box.appendChild(card);
+  });
+
+  // Pre-save before release (hidden if no link yet), listen after
+  var pre = document.getElementById('presave');
+  if (out) {
+    pre.textContent = 'Listen to The River'; pre.dataset.track = 'river';
+    ext(pre, (L.river && L.river !== '#') ? L.river : L.spotify);
+  } else if (L.presave && L.presave !== '#') {
+    ext(pre, L.presave);
+  }
+  if (L.spotify) ext(document.getElementById('spotify'), L.spotify);
+
+  document.querySelectorAll('[data-track]').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.fbq) { fbq('trackCustom', 'MusicClick', {service: a.dataset.track, page: 'memos'}); fbq('trackCustom', 'SpotifyClick'); }
+    });
+  });
+})();
+</script>
+</body>
+</html>

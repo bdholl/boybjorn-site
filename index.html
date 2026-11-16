@@ -92,6 +92,7 @@
   .list .signup .btn:disabled{opacity:.6;cursor:default}
   .hp,.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .list .form-msg{font-size:15px;font-weight:600;margin:10px 0 0;opacity:1}
+  .list .form-msg a{color:inherit}
   .list form.hidden + .form-msg{margin-top:0}
 
   .about{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
@@ -227,14 +228,13 @@
   </section>
 
   <section class="list" id="list">
-    <h3>Hear new songs first</h3>
-    <p>A short note when something new is out or a show is booked. No spam.</p>
-    <form class="signup" name="list" method="POST" data-netlify="true" netlify-honeypot="company">
-      <input type="hidden" name="form-name" value="list">
+    <h3>Get 3 unreleased voice memos</h3>
+    <p>New songs before anyone else hears them.</p>
+    <form class="signup" action="https://app.kit.com/forms/10198948/subscriptions" method="post">
       <p class="hp"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <label class="sr" for="list-email">Email address</label>
-      <input id="list-email" type="email" name="email" placeholder="you@email.com" autocomplete="email" required>
-      <button class="btn" type="submit">Join</button>
+      <input id="list-email" type="email" name="email_address" placeholder="you@email.com" autocomplete="email" required>
+      <button class="btn" type="submit">Send them</button>
     </form>
     <p class="form-msg hidden" id="form-msg" role="status"></p>
   </section>
@@ -364,20 +364,31 @@
   });
   if (photos.length) show('photos-wrap');
 
-  // Email list: Netlify Forms, submitted in place
+  // Email list: Kit form 10198948, submitted in place
   var form = document.querySelector('form.signup'), msg = document.getElementById('form-msg');
+  function done(text){ form.classList.add('hidden'); msg.textContent = text; msg.classList.remove('hidden'); }
   form.addEventListener('submit', function(ev){
     ev.preventDefault();
-    var b = form.querySelector('button'); b.disabled = true; b.textContent = 'Joining…';
-    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() })
-      .then(function(r){
-        if (!r.ok) throw new Error(r.status);
-        form.classList.add('hidden'); msg.textContent = "You're on the list. Thanks!"; msg.classList.remove('hidden');
-        if (window.fbq) fbq('track', 'Lead');
+    if (form.company.value) { done("You're in. Check your inbox for the voice memos."); return; } // honeypot: bots get a fake success
+    var b = form.querySelector('button'); b.disabled = true; b.textContent = 'Sending…'; msg.classList.add('hidden');
+    var data = new FormData(); data.append('email_address', form.email_address.value); data.append('referrer', location.href);
+    fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(j){
+        if (j.status === 'success') {
+          done("You're in. Check your inbox for the voice memos.");
+          if (window.fbq) fbq('track', 'Lead');
+        } else if (j.status === 'quarantined' && j.url) {
+          // Kit wants a quick human check for this signup
+          done('One more step: '); var a = el('a', null, 'confirm you’re not a robot'); ext(a, j.url); msg.appendChild(a); msg.appendChild(document.createTextNode('.'));
+          if (window.fbq) fbq('track', 'Lead');
+        } else {
+          throw new Error((j.errors && j.errors.messages && j.errors.messages[0]) || 'error');
+        }
       })
       .catch(function(){
-        b.disabled = false; b.textContent = 'Join';
-        msg.textContent = "That didn't go through. Try again, or email " + L.email + '.'; msg.classList.remove('hidden');
+        b.disabled = false; b.textContent = 'Send them';
+        msg.textContent = "That didn't go through. Check the address and try again, or email " + L.email + '.'; msg.classList.remove('hidden');
       });
   });
 
