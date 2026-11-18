@@ -43,6 +43,35 @@
   .primary{background:var(--ink);color:var(--paper)}
   .primary:hover{opacity:.9}
 
+  .radio{background:var(--ink);color:var(--paper);border-radius:18px;padding:16px 16px 14px;margin-bottom:22px}
+  .radio-top{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#bdb6a8}
+  .onair{display:inline-flex;align-items:center;gap:6px}
+  .onair i{width:7px;height:7px;border-radius:50%;background:#5a554d;display:block}
+  .radio.playing .onair i{background:#e2603f;box-shadow:0 0 0 0 rgba(226,96,63,.6);animation:pulse 1.6s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 7px rgba(226,96,63,0)}100%{box-shadow:0 0 0 0 rgba(226,96,63,0)}}
+  .dial{position:relative;height:30px;margin:12px 0 14px;border-radius:8px;background:#2b2824;overflow:hidden}
+  .dial .ticks{position:absolute;inset:6px 10px 12px;background:repeating-linear-gradient(90deg,#6b655b 0 1px,transparent 1px 10px)}
+  .dial .nums{position:absolute;left:10px;right:10px;bottom:2px;display:flex;justify-content:space-between;font-size:8px;letter-spacing:.05em;color:#8a8478}
+  .dial .needle{position:absolute;top:3px;bottom:3px;width:2px;margin-left:-1px;background:var(--river);border-radius:2px;box-shadow:0 0 8px rgba(143,207,200,.8);transition:left .9s cubic-bezier(.3,1.4,.5,1)}
+  .np{display:flex;align-items:center;gap:12px;min-height:64px}
+  .np img{width:64px;height:64px;border-radius:8px;object-fit:cover;flex:none;background:#2b2824}
+  .np-text{flex:1;min-width:0}
+  .np-text small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#bdb6a8;margin-bottom:3px}
+  .np-text b{display:block;font-family:Caladea,Georgia,serif;font-size:22px;line-height:1.15;overflow-wrap:anywhere}
+  .np-text span{display:block;font-size:13px;color:#bdb6a8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar{height:3px;border-radius:3px;background:#3a3631;margin:14px 0 12px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--river)}
+  .ctrls{display:flex;align-items:center;gap:10px}
+  .ctrls button{border:0;cursor:pointer;font:inherit;display:inline-flex;align-items:center;justify-content:center}
+  .ctrls .play{width:52px;height:52px;border-radius:50%;background:var(--river);color:var(--river-ink);flex:none}
+  .ctrls .play:active,.ctrls .skip:active{transform:scale(.95)}
+  .ctrls .skip{width:44px;height:44px;border-radius:50%;background:#2b2824;color:var(--paper);flex:none}
+  .ctrls svg{width:22px;height:22px}
+  .full{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .full a{font-size:13px;font-weight:600;color:var(--paper);text-decoration:none;padding:9px 12px;border-radius:999px;border:1px solid #4a4640;white-space:nowrap}
+  .full a:hover{border-color:var(--paper)}
+  .radio-note{font-size:11px;color:#8a8478;margin-top:10px}
+
   .label{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin:0 2px 10px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
   .chip{display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--ink);text-decoration:none;font-weight:500;font-size:15px}
@@ -151,6 +180,8 @@
     MERCH: [
     ],
 
+    // Boy Bjorn Radio: plays a 1-minute preview of The River first (until release day), then shuffled previews of every released song
+    RADIO: { preview: "audio/the-river-preview.m4a", appleArtistId: "1254162109" },
     VIDEO: "",        // YouTube link for a video to feature, e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX
     // About: one string per paragraph. Leave empty [] to hide the section.
     BIO: [
@@ -197,6 +228,22 @@
       <span id="status">Out Dec 4</span>
     </div>
     <a id="main-btn" class="btn primary" data-track="presave" href="#">Pre-save on Spotify</a>
+  </section>
+
+  <section class="radio hidden" id="radio" aria-label="Boy Bjorn Radio">
+    <div class="radio-top"><span>Boy Bjorn Radio</span><span class="onair"><i></i><span id="onair-text">Tune in</span></span></div>
+    <div class="dial" aria-hidden="true"><div class="ticks"></div><div class="nums"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div><div class="needle" id="needle" style="left:8%"></div></div>
+    <div class="np">
+      <img id="np-art" alt="" src="cover.jpg">
+      <div class="np-text"><small id="np-kicker">Up first</small><b id="np-title">The River</b><span id="np-sub"></span></div>
+    </div>
+    <div class="bar"><i id="np-bar"></i></div>
+    <div class="ctrls">
+      <button class="play" id="r-play" type="button" aria-label="Play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      <button class="skip" id="r-skip" type="button" aria-label="Next song"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6v12l8.5-6zM16 6h2v12h-2z"/></svg></button>
+      <div class="full" id="r-links"></div>
+    </div>
+    <p class="radio-note" id="r-note">Song previews, shuffled. Tap a link to hear the full song.</p>
   </section>
 
   <section class="section hidden" id="video-wrap">
@@ -366,6 +413,55 @@
     a.appendChild(img); pgrid.appendChild(a);
   });
   if (photos.length) show('photos-wrap');
+
+  // Boy Bjorn Radio: The River preview first (until release), then shuffled song previews from Apple's public catalog
+  (function(){
+    var box = document.getElementById('radio'); if (!box || !BB.RADIO) return;
+    var R = BB.RADIO, q = [], i = 0, started = false, au = new Audio(); au.preload = 'none';
+    var $ = function(id){ return document.getElementById(id); };
+    var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    var PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+    function spotify(t){ return 'https://open.spotify.com/search/' + encodeURIComponent('Boy Bjorn ' + t); }
+    if (!out && R.preview) q.push({ title: 'The River', sub: 'New single · out Dec 4', art: 'cover.jpg', src: R.preview, kicker: 'World premiere', links: [['Pre-save', L.presave, 'presave']] });
+    function render(){
+      var t = q[i]; if (!t) return;
+      $('np-title').textContent = t.title; $('np-sub').textContent = t.sub; $('np-art').src = t.art;
+      $('np-kicker').textContent = started ? (t.kicker || 'Now playing') : 'Up first';
+      $('needle').style.left = (8 + (i % 12) * 7.6) + '%';
+      var lk = $('r-links'); lk.innerHTML = '';
+      t.links.forEach(function(l){ var a = el('a', null, l[0]); ext(a, l[1]); a.dataset.track = l[2]; a.addEventListener('click', function(){ if (window.fbq) fbq('trackCustom', 'MusicClick', {service: l[2], from: 'radio', song: t.title}); }); lk.appendChild(a); });
+      if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: t.title, artist: 'Boy Bjorn', album: t.sub, artwork: [{ src: new URL(t.art, location.href).href, sizes: '300x300' }] });
+    }
+    function load(n){ i = (n + q.length) % q.length; au.src = q[i].src; render(); }
+    function play(){ if (!au.src) load(i); au.play().catch(function(){}); }
+    $('r-play').addEventListener('click', function(){
+      if (au.paused) { started = true; play(); if (window.fbq && !box.dataset.played) { box.dataset.played = 1; fbq('trackCustom', 'RadioPlay'); } }
+      else au.pause();
+    });
+    $('r-skip').addEventListener('click', function(){ started = true; load(i + 1); play(); });
+    au.addEventListener('ended', function(){ load(i + 1); play(); });
+    au.addEventListener('play', function(){ box.classList.add('playing'); $('r-play').innerHTML = PAUSE; $('r-play').setAttribute('aria-label', 'Pause'); $('onair-text').textContent = 'On air'; render(); });
+    au.addEventListener('pause', function(){ box.classList.remove('playing'); $('r-play').innerHTML = PLAY; $('r-play').setAttribute('aria-label', 'Play'); $('onair-text').textContent = 'Paused'; });
+    au.addEventListener('timeupdate', function(){ $('np-bar').style.width = (au.duration ? au.currentTime / au.duration * 100 : 0) + '%'; });
+    if ('mediaSession' in navigator) navigator.mediaSession.setActionHandler('nexttrack', function(){ load(i + 1); play(); });
+
+    fetch('https://itunes.apple.com/lookup?id=' + R.appleArtistId + '&entity=song&limit=200&country=us')
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var seen = {}, songs = (d.results || []).filter(function(r){ return r.wrapperType === 'track' && r.previewUrl && !/remix/i.test(r.trackName) && (r.artistName || '').toLowerCase() === 'boy bjorn'; });
+        songs.sort(function(a, b){ return /coffee music|sessions/i.test(a.collectionName) - /coffee music|sessions/i.test(b.collectionName); });
+        songs = songs.filter(function(r){ var k = r.trackName.toLowerCase(); if (seen[k] || (!out && k === 'the river')) return false; return (seen[k] = true); });
+        for (var j = songs.length - 1; j > 0; j--) { var k = Math.floor(Math.random() * (j + 1)), x = songs[j]; songs[j] = songs[k]; songs[k] = x; }
+        songs.sort(function(a, b){ return (b.trackName === 'The River') - (a.trackName === 'The River'); });
+        songs.forEach(function(r){
+          var album = (r.collectionName || '').replace(/ - (Single|EP)$/, ''), single = / - Single$/.test(r.collectionName || '');
+          q.push({ title: r.trackName, sub: (single ? 'Single' : album) + ' · ' + (r.releaseDate || '').slice(0, 4), art: (r.artworkUrl100 || '').replace('100x100bb', '300x300bb'), src: r.previewUrl,
+                   links: [['Spotify', spotify(r.trackName), 'spotify'], ['Apple Music', r.trackViewUrl, 'apple']] });
+        });
+      })
+      .catch(function(){})
+      .then(function(){ if (q.length) { render(); box.classList.remove('hidden'); } });
+  })();
 
   // Email list: Kit form 10198948, submitted in place
   var form = document.querySelector('form.signup'), msg = document.getElementById('form-msg');

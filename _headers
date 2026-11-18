@@ -1,0 +1,10 @@
+# Netlify headers. Keep the unlisted pages and their files out of search engines.
+/press/*
+  X-Robots-Tag: noindex, nofollow
+
+/memos/*
+  X-Robots-Tag: noindex, nofollow
+
+# Press downloads save as files on phones instead of opening in a viewer
+/press/files/*
+  Content-Disposition: attachment

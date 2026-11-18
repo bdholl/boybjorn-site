@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Boy Bjorn: The River</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#f2eee5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2eee5; --ink:#1f1d1a; --soft:#6b665d; --line:#d9d3c6;
+    --river:#8fcfc8; --river-ink:#123d3a; --card:#fbf9f4;
+    color-scheme:light; accent-color:var(--river-ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.45;min-height:100vh;display:flex;justify-content:center}
+  main{width:100%;max-width:580px;padding:40px 20px 56px}
+  @media (min-width:600px){ main{padding-top:56px} }
+
+  .feature{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:22px}
+  .cover{width:100%;aspect-ratio:1/1;border-radius:10px;object-fit:cover;display:block;background:var(--river)}
+  .meta{margin:16px 2px 14px}
+  .meta small{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:4px}
+  h1{font-family:Caladea,Georgia,serif;font-weight:700;font-size:36px;letter-spacing:-.01em;line-height:1.05}
+  .meta p{font-size:15px;color:var(--soft);margin-top:6px}
+  audio{display:block;width:100%;height:54px;border-radius:999px;background:var(--paper);margin-bottom:12px}
+  audio::-webkit-media-controls-panel{background:var(--paper)}
+
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:15px 18px;border-radius:12px;text-decoration:none;font-weight:600;font-size:16px;transition:transform .08s ease, opacity .15s}
+  .btn:active{transform:scale(.985)}
+  .primary{background:var(--ink);color:var(--paper)}
+  .primary:hover{opacity:.9}
+
+  .label{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin:0 2px 10px}
+  .section{margin-bottom:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .card p{font-size:15px;line-height:1.6}
+  .card p + p{margin-top:12px}
+
+  .files{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .file{display:flex;align-items:center;gap:14px;padding:14px 16px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;min-height:64px}
+  .file:first-child{border-top:0}
+  .file:hover{background:#f6f3ec}
+  .file .what{flex:1;min-width:0}
+  .file b{display:block;font-weight:600;font-size:15px}
+  .file span{display:block;font-size:13px;color:var(--soft);margin-top:1px}
+  .dl{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:9px 13px;border-radius:999px;border:1px solid var(--ink)}
+  .file:hover .dl{background:var(--ink);color:var(--paper)}
+  .dl svg{width:15px;height:15px}
+
+  .photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .photo{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 8px 10px;color:var(--ink);text-decoration:none}
+  .photo img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;background:var(--line)}
+  .photo.wide{grid-column:1 / -1}
+  .photo.wide img{aspect-ratio:auto}
+  .photo div{margin:9px 2px 0}
+  .photo b{display:block;font-weight:600;font-size:14px}
+  .photo span{display:block;font-size:12px;color:var(--soft);margin-top:1px}
+  .photo:hover{border-color:var(--ink)}
+
+  .contact{display:grid;gap:10px}
+  .row{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--ink);text-decoration:none;font-weight:500;font-size:15px;min-height:52px}
+  .row:hover{border-color:var(--ink)}
+  .row svg{width:20px;height:20px;flex:none}
+  .row span{margin-left:auto;font-size:13px;color:var(--soft);font-weight:400}
+
+  footer{text-align:center;margin-top:28px}
+  footer a{font-size:14px;color:var(--soft)}
+</style>
+</head>
+<body>
+<main>
+  <section class="feature">
+    <img class="cover" src="img/cover.jpg" alt="The River cover art">
+    <div class="meta">
+      <small>Boy Bjorn · New single</small>
+      <h1>The River</h1>
+      <p>Out December 4, 2026</p>
+    </div>
+    <audio controls preload="metadata" src="files/Boy-Bjorn-The-River-320.mp3" aria-label="The River by Boy Bjorn"></audio>
+    <a class="btn primary" href="https://distrokid.com/hyperfollow/boybjorn/the-river" target="_blank" rel="noopener">Pre-save The River</a>
+  </section>
+
+  <section class="section">
+    <p class="label">About</p>
+    <div class="card">
+      <p>Boy Bjorn is the solo folk project of Milwaukee songwriter Brian Holl, one half of the alt-folk duo Foreign Fields. Small songs “born out of a desire to capture moments lost,” for fans of Gregory Alan Isakov, S. Carey and Hovvdy.</p>
+      <p>After signing to Communion Records and releasing the 2019 debut Mistaken Animals, Holl returns with The River on December 4. “I’m leaning into my folky love song tendencies this time around,” he says. “More honest, and more direct than ever before.”</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">Downloads</p>
+    <div class="files">
+      <a class="file" href="files/Boy-Bjorn-The-River.wav" download>
+        <div class="what"><b>The River (WAV)</b><span>Full quality · 24-bit / 48 kHz · 68 MB</span></div>
+        <span class="dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Download</span>
+      </a>
+      <a class="file" href="files/Boy-Bjorn-The-River-320.mp3" download>
+        <div class="what"><b>The River (MP3)</b><span>320 kbps · 9 MB</span></div>
+        <span class="dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Download</span>
+      </a>
+      <a class="file" href="files/Boy-Bjorn-The-River-Cover.png" download>
+        <div class="what"><b>Cover art</b><span>PNG · 3000 × 3000 · 8.3 MB</span></div>
+        <span class="dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Download</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">Press photos</p>
+    <div class="photos">
+      <a class="photo" href="files/Boy-Bjorn-Photo-1.jpg" download>
+        <img src="img/photo-1.jpg" alt="Brian Holl holding up a small photo" loading="lazy">
+        <div><b>Download</b><span>2048 × 2048 · 3.5 MB</span></div>
+      </a>
+      <a class="photo" href="files/Boy-Bjorn-Photo-3.jpg" download>
+        <img src="img/photo-3.jpg" alt="Brian Holl in a denim jacket" loading="lazy" style="object-position:58% 50%">
+        <div><b>Download</b><span>2741 × 1440 · 2.2 MB</span></div>
+      </a>
+      <a class="photo wide" href="files/Boy-Bjorn-Photo-2.jpg" download>
+        <img src="img/photo-2.jpg" alt="Brian Holl by arched windows with plants" loading="lazy">
+        <div><b>Download</b><span>5184 × 2470 · 6.5 MB</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">Contact</p>
+    <div class="contact">
+      <a class="row" href="mailto:info@boybjorn.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>info@boybjorn.com</a>
+      <a class="row" href="https://www.instagram.com/boybjorn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram<span>@boybjorn</span></a>
+      <a class="row" href="https://www.tiktok.com/@boy.bjorn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.4a7.6 7.6 0 0 0 4.4 1.4V6.5A4.4 4.4 0 0 1 16.6 2z"/></svg>TikTok<span>@boy.bjorn</span></a>
+    </div>
+  </section>
+
+  <footer><a href="/">boybjorn.com</a></footer>
+</main>
+</body>
+</html>
