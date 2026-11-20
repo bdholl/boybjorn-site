@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Three voice memos · Boy Bjorn</title>
+<meta name="robots" content="noindex, nofollow">
+<title>From the Attic · Boy Bjorn</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -34,12 +34,15 @@
 
   .memos{display:grid;gap:12px;margin-bottom:22px}
   .memo{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 16px 14px}
-  .memo-head{display:flex;align-items:baseline;gap:12px;margin:0 2px 12px}
-  .memo-head .n{flex:none;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--soft)}
+  .memo-head{margin:0 2px 12px}
+  .memo-head time{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--soft);margin-bottom:3px}
   .memo-head h2{font-family:Caladea,Georgia,serif;font-weight:700;font-size:23px;line-height:1.15;overflow-wrap:anywhere}
+  .memo-head p{font-size:14px;color:var(--soft);line-height:1.5;margin-top:4px}
+  .memo.new{border-color:var(--river-ink)}
+  .memo .badge{display:inline-block;vertical-align:middle;margin-left:8px;font-family:Inter,system-ui,sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--river);color:var(--river-ink);padding:3px 7px;border-radius:999px}
   .memo audio{display:block;width:100%;height:54px;border-radius:999px;background:var(--paper)}
   .memo audio::-webkit-media-controls-panel{background:var(--paper)}
-  .memo .soon{font-size:14px;color:var(--soft);padding:14px 2px 2px}
+  .empty{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px;text-align:center;font-size:15px;color:var(--soft)}
 
   .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;padding:15px 18px;border-radius:12px;text-decoration:none;font-weight:600;font-size:16px;transition:transform .08s ease, opacity .15s}
   .btn:active{transform:scale(.985)}
@@ -65,16 +68,14 @@
       river:   "#",
       spotify: "https://open.spotify.com/artist/2qfpz8vJJMRopufkA7RjOU"
     },
-    // The three memos, in order. Leave src empty to show "Coming soon".
-    MEMOS: [
-      { title: "Voice memo 1", src: "" },
-      { title: "Voice memo 2", src: "" },
-      { title: "Voice memo 3", src: "" }
-    ]
+    // The memo list lives in memos.json (one line per memo); it's sorted newest first on the page.
+    DATA: "memos.json"
   };
   if (BB.PIXEL_ID) {
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', BB.PIXEL_ID); fbq('track', 'PageView'); fbq('track', 'CompleteRegistration');
+    fbq('init', BB.PIXEL_ID); fbq('track', 'PageView');
+    // Count a subscriber's first visit once, not every return visit
+    try { if (!localStorage.getItem('bb-attic')) { fbq('track', 'CompleteRegistration'); localStorage.setItem('bb-attic', '1'); } } catch (e) { fbq('track', 'CompleteRegistration'); }
   }
 </script>
 </head>
@@ -82,8 +83,8 @@
 <main>
   <header>
     <a href="/" class="home" aria-label="Boy Bjorn home"><img class="avatar" src="/photo.jpg" alt="Boy Bjorn" onerror="this.style.visibility='hidden'"></a>
-    <h1>Three voice memos</h1>
-    <p class="note">Hey, thanks for signing up and for listening! Here are a few recent voice memos, straight off my phone. Might be songs someday. Might not. I’ve got hundreds of them. Either way, thanks again for your time, and hope to see you in person sometime.<span class="sig">Brian</span></p>
+    <h1>From the Attic</h1>
+    <p class="note">These are the voice memos I record in my attic studio to track down ideas and work through new songs. I’ll add new ones as they happen. Some turn into real songs but most don’t. No judging pitchy vocals and weird stream of consciousness lyrics.<span class="sig">Brian</span></p>
   </header>
 
   <section class="memos" id="memos"></section>
@@ -103,26 +104,35 @@
   function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function ext(a, url){ a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.classList.remove('hidden'); }
 
-  // Players: one card per memo; starting one pauses the others
+  // Memos from memos.json, newest first. Starting one pauses the others.
   var box = document.getElementById('memos'), players = [];
-  BB.MEMOS.forEach(function(m, i){
-    var card = el('article', 'memo'), head = el('div', 'memo-head');
-    head.appendChild(el('span', 'n', String(i + 1).padStart(2, '0')));
-    head.appendChild(el('h2', null, m.title));
-    card.appendChild(head);
-    if (m.src) {
-      var a = el('audio'); a.controls = true; a.preload = 'metadata'; a.src = m.src;
-      a.setAttribute('controlsList', 'nodownload noplaybackrate'); a.setAttribute('aria-label', m.title);
-      a.addEventListener('play', function(){
-        players.forEach(function(p){ if (p !== a) p.pause(); });
-        if (window.fbq && !a.dataset.played) { a.dataset.played = 1; fbq('trackCustom', 'MemoPlay', {memo: m.title}); }
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function nice(d){ var p = String(d).split('-'); return MONTHS[+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0]; }
+  fetch(BB.DATA, { cache: 'no-cache' })
+    .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(list){
+      list = list.filter(function(m){ return m && m.file && /^\d{4}-\d{2}-\d{2}$/.test(m.date); })
+                 .sort(function(a, b){ return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+      if (!list.length) throw new Error('empty');
+      var recent = Date.now() - 14 * 864e5;   // "New" badge for 2 weeks
+      list.forEach(function(m){
+        var card = el('article', 'memo'), head = el('div', 'memo-head'), t = el('time', null, nice(m.date));
+        t.dateTime = m.date; head.appendChild(t);
+        var h = el('h2', null, m.title || 'Untitled');
+        if (new Date(m.date + 'T12:00:00') >= recent) { h.appendChild(el('span', 'badge', 'New')); card.classList.add('new'); }
+        head.appendChild(h);
+        if (m.note && !/^todo/i.test(m.note)) head.appendChild(el('p', null, m.note));   // notes starting with TODO stay hidden
+        card.appendChild(head);
+        var a = el('audio'); a.controls = true; a.preload = 'metadata'; a.src = 'audio/' + m.file;
+        a.setAttribute('controlsList', 'nodownload noplaybackrate'); a.setAttribute('aria-label', m.title || 'Voice memo');
+        a.addEventListener('play', function(){
+          players.forEach(function(p){ if (p !== a) p.pause(); });
+          if (window.fbq && !a.dataset.played) { a.dataset.played = 1; fbq('trackCustom', 'MemoPlay', {memo: m.title}); }
+        });
+        players.push(a); card.appendChild(a); box.appendChild(card);
       });
-      players.push(a); card.appendChild(a);
-    } else {
-      card.appendChild(el('p', 'soon', 'Coming soon.'));
-    }
-    box.appendChild(card);
-  });
+    })
+    .catch(function(){ box.appendChild(el('p', 'empty', 'The first memos are on their way up from the attic. Check back soon.')); });
 
   // Pre-save before release (hidden if no link yet), listen after
   var pre = document.getElementById('presave');

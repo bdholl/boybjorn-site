@@ -81,6 +81,8 @@
   .list{background:var(--river);color:var(--river-ink);border-radius:18px;padding:20px;margin-bottom:22px}
   .list h3{font-family:Caladea,Georgia,serif;font-weight:700;font-size:22px;line-height:1.15;margin-bottom:4px}
   .list p{font-size:14px;margin-bottom:14px;opacity:.85}
+  .list .lead{font-family:Caladea,Georgia,serif;font-size:20px;line-height:1.3;opacity:1;margin-bottom:16px}
+  .list .lead em{font-style:italic;font-weight:700}
   .list .btn{background:var(--river-ink);color:#fff}
 
   .section{margin-bottom:22px}
@@ -277,13 +279,12 @@
   </section>
 
   <section class="list" id="list">
-    <h3>Join the list</h3>
-    <p>New songs before anyone else, first word on shows, and the occasional extra. I only email when there’s something good.</p>
+    <p class="lead">Join the email list for new songs and shows, plus a bonus: <em>From the Attic</em>, my voice memos from the attic studio. Some turn into songs, most don’t.</p>
     <form class="signup" action="https://app.kit.com/forms/10198948/subscriptions" method="post">
       <p class="hp"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
       <label class="sr" for="list-email">Email address</label>
       <input id="list-email" type="email" name="email_address" placeholder="you@email.com" autocomplete="email" required>
-      <button class="btn" type="submit">Sign up</button>
+      <button class="btn" type="submit">Join the list</button>
     </form>
     <p class="form-msg hidden" id="form-msg" role="status"></p>
   </section>
@@ -469,7 +470,7 @@
   form.addEventListener('submit', function(ev){
     ev.preventDefault();
     if (form.company.value) { done("You're in. Check your inbox to confirm."); return; } // honeypot: bots get a fake success
-    var b = form.querySelector('button'); b.disabled = true; b.textContent = 'Signing up…'; msg.classList.add('hidden');
+    var b = form.querySelector('button'); b.disabled = true; b.textContent = 'Joining…'; msg.classList.add('hidden');
     var data = new FormData(); data.append('email_address', form.email_address.value); data.append('referrer', location.href);
     fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
       .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -486,7 +487,7 @@
         }
       })
       .catch(function(){
-        b.disabled = false; b.textContent = 'Sign up';
+        b.disabled = false; b.textContent = 'Join the list';
         msg.textContent = "That didn't go through. Check the address and try again, or email " + L.email + '.'; msg.classList.remove('hidden');
       });
   });
