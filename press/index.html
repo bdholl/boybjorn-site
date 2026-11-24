@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Boy Bjorn: The River</title>
+<title>Boy Bjorn: Press Kit</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/radio.css">
 <style>
   :root{
     --paper:#f2eee5; --ink:#1f1d1a; --soft:#6b665d; --line:#d9d3c6;
@@ -71,9 +72,55 @@
   .row svg{width:20px;height:20px;flex:none}
   .row span{margin-left:auto;font-size:13px;color:var(--soft);font-weight:400}
 
+  .bio-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px}
+  .bio-head .label{margin:0}
+  .copy{font:inherit;font-size:12px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;min-height:32px}
+  .copy:hover{border-color:var(--ink)}
+  .copy.done{background:var(--river);border-color:var(--river);color:var(--river-ink)}
+
+  .facts{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .fact{display:grid;grid-template-columns:104px 1fr;gap:12px;padding:12px 16px;border-top:1px solid var(--line);font-size:14px;line-height:1.45}
+  .fact:first-child{border-top:0}
+  .fact dt{color:var(--soft);font-size:12px;text-transform:uppercase;letter-spacing:.08em;padding-top:2px}
+  .fact dd a{color:var(--ink)}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+  .chip{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14px;min-height:48px}
+  .chip:hover{border-color:var(--ink)}
+  .chip svg{width:20px;height:20px;flex:none}
+  @media (max-width:420px){ .grid{grid-template-columns:1fr} .chip{justify-content:flex-start;padding:13px 14px} }
+  .radio{margin-bottom:0}
+
+  .video{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;border-radius:14px;overflow:hidden;background:var(--ink);cursor:pointer}
+  .video img{width:100%;height:100%;object-fit:cover;display:block;opacity:.88}
+  .video .play{position:absolute;inset:0;margin:auto;width:66px;height:46px;border-radius:14px;background:rgba(31,29,26,.82);display:flex;align-items:center;justify-content:center}
+  .video:hover .play{background:var(--ink)}
+  .video iframe{width:100%;height:100%;border:0;display:block}
+
+  .credit{font-size:13px;color:var(--soft);text-align:center;margin-top:12px}
+  .credit a{color:var(--ink)}
+  .all{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;padding:13px;border:1px solid var(--ink);border-radius:12px;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;min-height:48px}
+  .all:hover{background:var(--ink);color:var(--paper)}
+  .all svg{width:16px;height:16px}
+  .hidden{display:none!important}
+
   footer{text-align:center;margin-top:28px}
   footer a{font-size:14px;color:var(--soft)}
 </style>
+<script>
+  window.BB = {
+    RELEASE: "2026-12-04T00:00:00-06:00",
+    // Live video for bookers: paste a YouTube link here and the Watch section appears.
+    VIDEO: "",
+    LINKS: {
+      presave:  "https://distrokid.com/hyperfollow/boybjorn/the-river",
+      spotify:  "https://open.spotify.com/artist/2qfpz8vJJMRopufkA7RjOU",
+      apple:    "https://music.apple.com/us/artist/boy-bjorn/1254162109",
+      bandcamp: "https://boybjorn.bandcamp.com"
+    },
+    RADIO: { preview: "/audio/the-river-preview.m4a", appleArtistId: "1254162109" }
+  };
+</script>
 </head>
 <body>
 <main>
@@ -89,11 +136,45 @@
   </section>
 
   <section class="section">
-    <p class="label">About</p>
-    <div class="card">
-      <p>Boy Bjorn is the solo folk project of Milwaukee songwriter Brian Holl, one half of the alt-folk duo Foreign Fields. Small songs “born out of a desire to capture moments lost,” for fans of Gregory Alan Isakov, S. Carey and Hovvdy.</p>
-      <p>After signing to Communion Records and releasing the 2019 debut Mistaken Animals, Holl returns with The River on December 4. “I’m leaning into my folky love song tendencies this time around,” he says. “More honest, and more direct than ever before.”</p>
+    <div class="bio-head"><p class="label">Short bio</p><button class="copy" type="button" data-copy="bio-short">Copy</button></div>
+    <div class="card" id="bio-short">
+      <p>Boy Bjorn is the solo folk project of Milwaukee songwriter Brian Holl, one half of the alt-folk duo Foreign Fields. Small songs built on acoustic guitar, banjo and close harmonies, for fans of Gregory Alan Isakov, S. Carey and Hovvdy. New single The River is out December 4, 2026.</p>
     </div>
+  </section>
+
+  <section class="section">
+    <div class="bio-head"><p class="label">Long bio</p><button class="copy" type="button" data-copy="bio-long">Copy</button></div>
+    <div class="card" id="bio-long">
+      <p>Boy Bjorn is the solo folk project of Milwaukee songwriter Brian Holl. Holl is one half of the alt-folk duo Foreign Fields, whose music reaches more than 150,000 listeners a month on Spotify. As Boy Bjorn, he signed to Communion Records and released his debut, Mistaken Animals, in 2019.</p>
+      <p>The songs are born out of a desire to capture moments lost: small moments built on acoustic guitar, banjo and close harmonies. Fans of Gregory Alan Isakov, S. Carey and Hovvdy will feel at home.</p>
+      <p>Boy Bjorn returns on December 4, 2026 with The River, which WMSE 91.7 FM premiered ahead of release. More new songs follow through 2027. “I’m leaning into my folky love song tendencies this time around,” Holl says.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label">Quick facts</p>
+    <dl class="facts">
+      <div class="fact"><dt>Based in</dt><dd>Milwaukee, Wisconsin</dd></div>
+      <div class="fact"><dt>For fans of</dt><dd>Gregory Alan Isakov, S. Carey, Hovvdy</dd></div>
+      <div class="fact"><dt>Notables</dt><dd>Featured in songs with Monica Martin, Haux and <a href="https://www.foreignfields.net" target="_blank" rel="noopener">Foreign Fields</a>, and a US tour supporting Matthew and the Atlas</dd></div>
+      <div class="fact"><dt>Radio</dt><dd>WMSE 91.7 FM, 88.9 Radio Milwaukee, BBC Radio 6</dd></div>
+      <div class="fact"><dt>Live</dt><dd>Full band (3–5 piece) or solo</dd></div>
+    </dl>
+  </section>
+
+  <section class="section">
+    <p class="label">Listen</p>
+    <div class="grid">
+      <a class="chip" data-key="spotify"><svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2.1-10.5-1.1a.75.75 0 1 1-.33-1.46c4.6-1.05 8.5-.6 11.6 1.3.36.22.47.69.25 1zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.2-1.97-8.08-2.54-11.87-1.39a.94.94 0 1 1-.54-1.8c4.33-1.31 9.71-.68 13.4 1.59.44.27.58.85.3 1.29zm.13-3.4C15.24 8.34 8.88 8.13 5.2 9.25a1.12 1.12 0 1 1-.65-2.15c4.22-1.28 11.24-1.03 15.67 1.6a1.12 1.12 0 1 1-1.14 1.93z"/></svg>Spotify</a>
+      <a class="chip" data-key="apple"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#FA2D48"/><path fill="#fff" d="M16.5 5.6v8.9a2.4 2.4 0 1 1-1.4-2.2V8.4l-5.4 1.2v6.3a2.4 2.4 0 1 1-1.4-2.2V7.1z"/></svg>Apple Music</a>
+      <a class="chip" data-key="bandcamp"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1DA0C3"/><path fill="#fff" d="M4.5 16.5 9 7.5h10.5L15 16.5z"/></svg>Bandcamp</a>
+    </div>
+    <section class="radio hidden" id="radio" aria-label="Boy Bjorn Radio"></section>
+  </section>
+
+  <section class="section hidden" id="video-wrap">
+    <p class="label">Watch</p>
+    <div id="video"></div>
   </section>
 
   <section class="section">
@@ -130,10 +211,12 @@
         <div><b>Download</b><span>5184 × 2470 · 6.5 MB</span></div>
       </a>
     </div>
+    <a class="all" href="files/Boy-Bjorn-Press-Photos.zip" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Download all photos (ZIP · 12 MB)</a>
+    <p class="credit">Photos by <a href="https://www.nickmorawiecki.com" target="_blank" rel="noopener">Nick Morawiecki</a></p>
   </section>
 
   <section class="section">
-    <p class="label">Contact</p>
+    <p class="label">Booking and press</p>
     <div class="contact">
       <a class="row" href="mailto:info@boybjorn.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>info@boybjorn.com</a>
       <a class="row" href="https://www.instagram.com/boybjorn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram<span>@boybjorn</span></a>
@@ -143,5 +226,40 @@
 
   <footer><a href="/">boybjorn.com</a></footer>
 </main>
+
+<script>
+(function(){
+  var L = BB.LINKS;
+  document.querySelectorAll('[data-key]').forEach(function(a){
+    var url = L[a.dataset.key]; if (!url) { a.classList.add('hidden'); return; }
+    a.href = url; a.target = '_blank'; a.rel = 'noopener';
+  });
+
+  // Copy buttons: copy a bio as plain text, paragraphs separated by a blank line
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var text = [].map.call(document.getElementById(b.dataset.copy).querySelectorAll('p'), function(p){ return p.textContent.trim(); }).join('\n\n');
+      function ok(){ b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function(){ b.textContent = 'Copy'; b.classList.remove('done'); }, 1800); }
+      function fallback(){ var t = document.createElement('textarea'); t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); ok(); } catch (e) {} document.body.removeChild(t); }
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(ok, fallback); else fallback();
+    });
+  });
+
+  // Watch: click-to-play YouTube, hidden while BB.VIDEO is empty
+  var vid = (BB.VIDEO || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/) || (/^[\w-]{11}$/.test(BB.VIDEO) && [0, BB.VIDEO]);
+  if (vid) {
+    var id = vid[1], box = document.getElementById('video'), btn = document.createElement('button');
+    btn.className = 'video'; btn.type = 'button'; btn.setAttribute('aria-label', 'Play video');
+    btn.innerHTML = '<img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy"><span class="play"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>';
+    btn.addEventListener('click', function(){
+      var w = document.createElement('div'); w.className = 'video';
+      w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Boy Bjorn live"></iframe>';
+      box.replaceChild(w, btn);
+    });
+    box.appendChild(btn); document.getElementById('video-wrap').classList.remove('hidden');
+  }
+})();
+</script>
+<script src="/radio.js" defer></script>
 </body>
 </html>
